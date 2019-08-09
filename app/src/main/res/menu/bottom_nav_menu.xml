@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ic_bnv_home"
+        android:icon="@drawable/ufi_home_icon"
+        android:title="home"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/ic_bnv_explore"
+        android:icon="@drawable/ufi_explore_icon"
+        android:title="explore"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/ic_bnv_post"
+        android:icon="@drawable/ufi_post_icon"
+        android:title="post"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/ic_bnv_like"
+        android:icon="@drawable/ufi_heart_icon"
+        android:title="like"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/ic_bnv_mywall"
+        android:icon="@drawable/ufi_user_icon"
+        android:title="me"
+        app:showAsAction="ifRoom" />
+</menu>

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -40,10 +41,20 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
-                login(username,password);
+                if(!username.contentEquals("") && !password.contentEquals("")){
+                    login(username,password);
+                }
+                else{
+                    if(username.contentEquals("") && !password.contentEquals("")){
+                        Snackbar.make(view,"Please enter a username.",Snackbar.LENGTH_LONG).show();
+                    }else if (password.contentEquals("") && !username.contentEquals("")){
+                        Snackbar.make(view,"Please enter a password.",Snackbar.LENGTH_LONG).show();
+                    }else if (username.contentEquals("") && password.contentEquals("")){
+                        Snackbar.make(view,"Fields are required.",Snackbar.LENGTH_LONG).show();
+                    }
+                }
             }
         });
-
     }
 
     private void login(String username, String password) {
@@ -61,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goToActivity() {
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
         startActivity(intent);
         finish();
         //Todo: save id persistence
