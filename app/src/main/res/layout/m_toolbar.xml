@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
+        android:background="@android:color/background_light"
+        android:elevation="20dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 </RelativeLayout>

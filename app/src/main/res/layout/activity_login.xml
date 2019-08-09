@@ -9,70 +9,86 @@
     android:background="@drawable/gradient"
     tools:context=".LoginActivity">
 
-    <ImageView
-        android:id="@+id/ivlogo"
-        android:layout_width="250dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="150dp"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/ig" />
-
-    <EditText
-        android:id="@+id/etUsername"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ivlogo"
-        android:background="@color/colorTransparent"
-        android:padding="15dp"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
-        android:layout_margin="10dp"
-        android:hint="Username" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tvMee">
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/etUsername"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/colorTransparent"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:padding="15dp"
-        android:password="true"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
 
-    <Button
-        android:id="@+id/btnLogin2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etPassword"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/btn_login_selector"
-        android:padding="18dp"
-        android:text="Login"
-        android:textColor="@android:color/white" />
+            <ImageView
+                android:id="@+id/ivlogo"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                app:srcCompat="@drawable/ig" />
+
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivlogo"
+                android:layout_margin="10dp"
+                android:background="@color/colorTransparent"
+                android:hint="Username"
+                android:padding="15dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etUsername"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorTransparent"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:padding="15dp"
+                android:password="true"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white" />
+
+            <Button
+                android:id="@+id/btnLogin2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etPassword"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btn_login_selector"
+                android:padding="18dp"
+                android:text="Login"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/forgot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnLogin2"
+                android:layout_centerHorizontal="true"
+                android:text="Forgot your password ? Request link here"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+
     <TextView
-        android:id="@+id/forgot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnLogin2"
-        android:layout_centerHorizontal="true"
-        android:textColor="@android:color/white"
-        android:text="Forgot your password ? Request link here"/>
-
-    <TextView
+        android:id="@+id/tvMee"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="60dp"
         android:background="@color/colorTransparent2"
         android:gravity="center"
         android:text="New to Instagram? Sign up"
