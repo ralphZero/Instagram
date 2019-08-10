@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -31,6 +32,7 @@ public class PostActivity extends AppCompatActivity {
     ImageView ivShow;
     EditText etDesc;
     Button btnPost;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +41,11 @@ public class PostActivity extends AppCompatActivity {
         ivShow = findViewById(R.id.ivShow);
         etDesc = findViewById(R.id.etDescPost);
         btnPost = findViewById(R.id.btnPost);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
 
         array = getIntent().getByteArrayExtra("img");
+
         final File savedPhoto = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "photo.jpg");
         try {
             FileOutputStream outputStream = new FileOutputStream(savedPhoto.getPath());
@@ -59,6 +64,8 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //todo : the logic behide this would be to do a intent and post it in background in the home fragment asynchronously
+                progressBar.setVisibility(View.VISIBLE);
+                etDesc.setEnabled(false);
                 String description = etDesc.getText().toString();
                 ParseUser user = ParseUser.getCurrentUser();
                 savePost(description,user,savedPhoto);
@@ -75,13 +82,17 @@ public class PostActivity extends AppCompatActivity {
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
+                progressBar.setVisibility(View.GONE);
+                etDesc.setEnabled(true);
                 if(e!=null){
                     Log.d("ErrorSavePost","error while saving post.");
                     e.printStackTrace();
                     return;
                 }
-                //todo : intent to main activity
-                Toast.makeText(PostActivity.this,"Success",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(PostActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+
             }
         });
     }
