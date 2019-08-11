@@ -48,10 +48,9 @@ public class MeFragment extends Fragment {
         tvName = view.findViewById(R.id.tvName);
         tvName.setText(ParseUser.getCurrentUser().getString("name"));
         imageView = view.findViewById(R.id.imageView);
+
         Glide.with(getActivity())
                 .load(ParseUser.getCurrentUser().getParseFile("avatar").getUrl())
-                .apply(new RequestOptions().centerCrop().transform(new RoundedCorners(100)))
-                .placeholder(R.drawable.placeholder).error(R.drawable.placeholder)
                 .into(imageView);
     }
 
