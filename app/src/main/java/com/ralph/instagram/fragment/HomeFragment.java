@@ -14,20 +14,26 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.ralph.instagram.R;
+import com.ralph.instagram.adapters.HomeAdapter;
 import com.ralph.instagram.models.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     RecyclerView rvInsta;
     Toolbar toolbar;
+    HomeAdapter adapter;
+    List<Post> list;
+
 
     @Nullable
     @Override
@@ -39,6 +45,12 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         toolbar =view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        list = new ArrayList<Post>();
+        rvInsta = view.findViewById(R.id.rvInsta);
+        adapter = new HomeAdapter(getActivity(), list);
+        rvInsta.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
+        rvInsta.setAdapter(adapter);
 
         fetchAllPosts();
 
@@ -55,9 +67,7 @@ public class HomeFragment extends Fragment {
                     e.printStackTrace();
                     return;
                 }
-                for (int i = 0;i< posts.size(); i++){
-                    Log.d("Post",posts.get(i).getDescription());
-                }
+                adapter.addAllToList(posts);
             }
         });
     }
