@@ -1,10 +1,12 @@
 package com.ralph.instagram.adapters;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,6 +43,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
         Post post = list.get(position);
+
+        if(post.getLiked()){
+            holder.ibLike.setImageResource(R.drawable.ic_vector_heart);
+        }else{
+            holder.ibLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+        }
+
         holder.tvUsername.setText(post.getUser().getUsername());
         holder.tvUsernameComment.setText(post.getUser().getUsername());
         holder.ivDescription.setText(post.getDescription());
@@ -56,6 +65,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
                 .apply(new RequestOptions().centerInside())
                 .apply(new RequestOptions().placeholder(R.drawable.placeholder).error(R.drawable.placeholder))
                 .into(holder.ivImgPost);
+
+        holder.ibLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
@@ -77,6 +93,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
         public ImageView ivImgPost;
         public TextView tvUsernameComment;
         public TextView ivDescription;
+        public ImageButton ibLike;
 
         public mViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,6 +102,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
             ivImgPost = itemView.findViewById(R.id.iv_post_i);
             ivDescription = itemView.findViewById(R.id.tv_comment);
             tvUsernameComment = itemView.findViewById(R.id.tv_usename_comment_i);
+            ibLike = itemView.findViewById(R.id.ib_like_i);
         }
     }
 }

@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#636363</color>
     <color name="colorAccent">#636363</color>
     <color name="yellowAccent">#F56E2C</color>
+    <color name="medium_red">#ffe0245e</color>
+    <color name="medium_red_30">#4de0245e</color>
+    <color name="medium_red_50">#80e0245e</color>
     <color name="colorTransparent">#5EFFFFFF</color>
     <color name="colorTransparent2">#28FFFFFF</color>
 </resources>

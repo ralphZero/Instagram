@@ -21,6 +21,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.ralph.instagram.models.Like;
 import com.ralph.instagram.models.Post;
 
 import java.io.File;
@@ -76,8 +77,10 @@ public class PostActivity extends AppCompatActivity {
 
     private void savePost(String description, ParseUser user, File savedPhoto) {
         Post post = new Post();
+
         post.setDescription(description);
         post.setUser(user);
+        post.setLiked(false);
         post.setImage(new ParseFile(savedPhoto));
         post.saveInBackground(new SaveCallback() {
             @Override
