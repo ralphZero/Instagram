@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.ralph.instagram.models.Like;
 import com.ralph.instagram.models.Post;
 
 import okhttp3.OkHttpClient;
@@ -26,6 +27,7 @@ public class ParseApplication extends Application {
         builder.networkInterceptors().add(httpLoggingInterceptor);
 
         ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(Like.class);
 
         // set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured

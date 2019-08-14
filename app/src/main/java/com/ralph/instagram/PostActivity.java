@@ -80,7 +80,6 @@ public class PostActivity extends AppCompatActivity {
 
         post.setDescription(description);
         post.setUser(user);
-        post.setLiked(false);
         post.setImage(new ParseFile(savedPhoto));
         post.saveInBackground(new SaveCallback() {
             @Override
