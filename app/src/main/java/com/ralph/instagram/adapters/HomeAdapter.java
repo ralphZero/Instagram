@@ -2,6 +2,7 @@ package com.ralph.instagram.adapters;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
@@ -32,6 +33,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.ralph.instagram.R;
+import com.ralph.instagram.ShowUserActivity;
+import com.ralph.instagram.TimeFormatter;
 import com.ralph.instagram.models.Like;
 import com.ralph.instagram.models.Post;
 
@@ -72,12 +75,26 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
         holder.tvUsername.setText(post.getUser().getUsername());
         holder.tvUsernameComment.setText(post.getUser().getUsername());
         holder.ivDescription.setText(post.getDescription());
+        holder.tvTimeStamp.setText(TimeFormatter.getTimeDifference(post.getCreatedAt().toString()));
 
         Glide.with(context)
                 .load(post.getParseUser("user").getParseFile("avatar").getUrl())
                 .apply(new RequestOptions().centerInside().transform(new RoundedCorners(100)))
                 .apply(new RequestOptions().placeholder(R.drawable.placeholder).error(R.drawable.placeholder))
                 .into(holder.ivAvatar);
+
+        holder.ivAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showUserInfo(post);
+            }
+        });
+        holder.tvUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showUserInfo(post);
+            }
+        });
 
         Glide.with(context)
                 .load(post.getImage().getUrl())
@@ -105,6 +122,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
                 }
             }
         });
+    }
+
+    private void showUserInfo(Post post) {
+        String id = post.getUser().getObjectId();
+        Intent intent = new Intent(context, ShowUserActivity.class);
+        intent.putExtra("ObjectId",id);
+        context.startActivity(intent);
     }
 
     private boolean getLiked(Post post) {
@@ -254,6 +278,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
         public ImageView ivAvatar;
         public ImageView ivImgPost;
         public TextView tvUsernameComment;
+        public TextView tvTimeStamp;
         public TextView ivDescription;
         public TextView tvLikeCounter;
         public ImageButton ibLike;
@@ -267,6 +292,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
             tvUsernameComment = itemView.findViewById(R.id.tv_usename_comment_i);
             ibLike = itemView.findViewById(R.id.ib_like_i);
             tvLikeCounter = itemView.findViewById(R.id.tvViewCounter);
+            tvTimeStamp = itemView.findViewById(R.id.tvTimestamp);
         }
     }
 }

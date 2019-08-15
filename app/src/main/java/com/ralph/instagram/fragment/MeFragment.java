@@ -34,8 +34,11 @@ public class MeFragment extends Fragment {
 
     TextView tvUsername;
     TextView tvName;
+    TextView tvBio;
     ImageView imageView;
     TextView tvPostCount;
+    TextView tvFollowersCount;
+    TextView tvFollowingCount;
 
     @Nullable
     @Override
@@ -52,11 +55,19 @@ public class MeFragment extends Fragment {
         tvUsername = view.findViewById(R.id.tvMeUsername);
         tvUsername.setText(ParseUser.getCurrentUser().getUsername());
         tvName = view.findViewById(R.id.tvName);
+        tvBio = view.findViewById(R.id.tvBio);
+        tvBio.setText(ParseUser.getCurrentUser().getString("bio"));
         tvName.setText(ParseUser.getCurrentUser().getString("name"));
         imageView = view.findViewById(R.id.imageView);
 
         tvPostCount = view.findViewById(R.id.tvPostCount);
+        tvFollowingCount = view.findViewById(R.id.tvFollowingCount);
+        tvFollowersCount = view.findViewById(R.id.tvFollowersCount);
 
+        initBinding();
+    }
+
+    private void initBinding() {
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Post");
         query.whereEqualTo("user",ParseUser.getCurrentUser());
         query.countInBackground(new CountCallback() {
@@ -68,6 +79,36 @@ public class MeFragment extends Fragment {
                     return;
                 }
                 tvPostCount.setText(String.valueOf(count));
+            }
+        });
+
+        //get follower count
+        ParseQuery<ParseObject> queryFollowerCount = ParseQuery.getQuery("Followers");
+        queryFollowerCount.whereEqualTo("following",ParseUser.getCurrentUser());
+        queryFollowerCount.countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                if(e!=null){
+                    Log.d("FollowerCount","Error "+e.getMessage());
+                    e.printStackTrace();
+                    return;
+                }
+                tvFollowersCount.setText(String.valueOf(count));
+            }
+        });
+
+        //get following count
+        ParseQuery<ParseObject> queryFollowingCount = ParseQuery.getQuery("Followers");
+        queryFollowingCount.whereEqualTo("user",ParseUser.getCurrentUser());
+        queryFollowingCount.countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                if(e!=null){
+                    Log.d("FollowingCount","Error "+e.getMessage());
+                    e.printStackTrace();
+                    return;
+                }
+                tvFollowingCount.setText(String.valueOf(count));
             }
         });
 

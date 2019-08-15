@@ -71,10 +71,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="false"
                                 android:layout_centerHorizontal="true"
-                                android:text="9"
                                 android:textColor="@android:color/black"
                                 android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:text="9" />
 
                             <TextView
                                 android:id="@+id/textView"
@@ -101,10 +101,10 @@
                                 android:layout_centerInParent="false"
                                 android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="false"
-                                android:text="1399"
                                 android:textColor="@android:color/black"
                                 android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:text="1399" />
 
                             <TextView
                                 android:id="@+id/textView2"
@@ -128,10 +128,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
-                                android:text="867"
                                 android:textColor="@android:color/black"
                                 android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:text="867" />
 
                             <TextView
                                 android:id="@+id/textView5"
@@ -163,9 +163,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvName"
                     android:layout_marginTop="5dp"
-                    android:text="@string/lorem_ipsum_lorem_ipsum"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    tools:text="@string/lorem_ipsum_lorem_ipsum" />
             </RelativeLayout>
 
         </RelativeLayout>

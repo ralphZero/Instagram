@@ -59,6 +59,7 @@ public class HomeFragment extends Fragment {
     private void fetchAllPosts() {
         ParseQuery<Post> postParseQuery = new ParseQuery<Post>(Post.class);
         postParseQuery.include(Post.KEY_USER);
+        postParseQuery.orderByDescending("objectId");
         postParseQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
