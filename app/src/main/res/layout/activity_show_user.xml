@@ -191,6 +191,12 @@
                 </RelativeLayout>
             </RelativeLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvShowPost"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/rlUserInfo1" />
+
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

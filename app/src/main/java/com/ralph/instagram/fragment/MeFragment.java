@@ -17,11 +17,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.parse.CountCallback;
+import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -29,6 +32,11 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.ralph.instagram.LoginActivity;
 import com.ralph.instagram.R;
+import com.ralph.instagram.adapters.MeAdapter;
+import com.ralph.instagram.models.Post;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MeFragment extends Fragment {
 
@@ -39,6 +47,10 @@ public class MeFragment extends Fragment {
     TextView tvPostCount;
     TextView tvFollowersCount;
     TextView tvFollowingCount;
+    RecyclerView rvMePosts;
+    List<Post> postList;
+    MeAdapter adapter;
+
 
     @Nullable
     @Override
@@ -63,6 +75,12 @@ public class MeFragment extends Fragment {
         tvPostCount = view.findViewById(R.id.tvPostCount);
         tvFollowingCount = view.findViewById(R.id.tvFollowingCount);
         tvFollowersCount = view.findViewById(R.id.tvFollowersCount);
+
+        rvMePosts = view.findViewById(R.id.rvMePosts);
+        postList = new ArrayList<>();
+        adapter = new MeAdapter(getActivity(),postList);
+        rvMePosts.setLayoutManager(new GridLayoutManager(getActivity(),3,RecyclerView.VERTICAL,false));
+        rvMePosts.setAdapter(adapter);
 
         initBinding();
     }
@@ -115,6 +133,19 @@ public class MeFragment extends Fragment {
         Glide.with(getActivity())
                 .load(ParseUser.getCurrentUser().getParseFile("avatar").getUrl())
                 .into(imageView);
+
+        ParseQuery<Post> postParseQuery = new ParseQuery<Post>(Post.class);
+        postParseQuery.whereEqualTo("user",ParseUser.getCurrentUser());
+        postParseQuery.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> objects, ParseException e) {
+                if(e!=null){
+                    e.printStackTrace();
+                    return;
+                }
+                adapter.addAlltoList(objects);
+            }
+        });
     }
 
     @Override

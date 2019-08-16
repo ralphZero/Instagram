@@ -2,11 +2,14 @@ package com.ralph.instagram;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +23,10 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.ralph.instagram.adapters.ShowUserAdapter;
+import com.ralph.instagram.models.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShowUserActivity extends AppCompatActivity {
@@ -30,6 +36,9 @@ public class ShowUserActivity extends AppCompatActivity {
     Button btnFollow,btnUnfollow;
     String objectId;
     ParseUser user;
+    RecyclerView rvShowPost;
+    ShowUserAdapter adapter;
+    List<Post> posts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,13 @@ public class ShowUserActivity extends AppCompatActivity {
         tvShowName = findViewById(R.id.tvShowName);
         tvShowBio = findViewById(R.id.tvShowBio);
 
+        rvShowPost = findViewById(R.id.rvShowPost);
+
+        posts = new ArrayList<>();
+        adapter = new ShowUserAdapter(ShowUserActivity.this,posts);
+        rvShowPost.setLayoutManager(new GridLayoutManager(ShowUserActivity.this,3, RecyclerView.VERTICAL,false));
+        rvShowPost.setAdapter(adapter);
+
         ivShowAvatar = findViewById(R.id.imageView1);
         btnFollow = findViewById(R.id.btnFollow);
         btnFollow.setVisibility(View.GONE);
@@ -67,6 +83,20 @@ public class ShowUserActivity extends AppCompatActivity {
                 }
                 user = objects.get(0);
                 initBinding();
+
+                //show all post
+                ParseQuery<Post> queryPost = new ParseQuery<Post>(Post.class);
+                queryPost.whereEqualTo("user",user);
+                queryPost.findInBackground(new FindCallback<Post>() {
+                    @Override
+                    public void done(List<Post> objects, ParseException e) {
+                        if(e!=null){
+                            e.printStackTrace();
+                            return;
+                        }
+                        adapter.addAlltoList(objects);
+                    }
+                });
 
             }
         });
