@@ -18,6 +18,10 @@ public class Post extends ParseObject {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_USER = "user";
     public static final String KEY_LIKECOUNT  = "likecount";
+    public static final String KEY_COMMENTCOUNT = "commentcount";
+
+    public Post() {
+    }
 
     public String getDescription(){
         return getString(KEY_DESCRIPTION);
@@ -46,4 +50,9 @@ public class Post extends ParseObject {
     public void setLikeCount(int value){put(KEY_LIKECOUNT,value);}
 
     public int getLikeCount(){return getInt(KEY_LIKECOUNT);}
+
+    public void setCommentCount(int value){put(KEY_COMMENTCOUNT,value);}
+
+    public int getCommentCount(){return getInt(KEY_COMMENTCOUNT);}
+
 }

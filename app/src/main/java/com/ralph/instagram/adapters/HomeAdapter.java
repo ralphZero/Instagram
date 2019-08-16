@@ -1,29 +1,28 @@
 package com.ralph.instagram.adapters;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.graphics.PorterDuff;
-import android.media.Image;
-import android.os.Build;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.parse.CountCallback;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -32,13 +31,15 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.ralph.instagram.CommentActivity;
 import com.ralph.instagram.R;
 import com.ralph.instagram.ShowUserActivity;
 import com.ralph.instagram.TimeFormatter;
+import com.ralph.instagram.models.Comment;
 import com.ralph.instagram.models.Like;
 import com.ralph.instagram.models.Post;
 
-import java.net.ProtocolFamily;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
@@ -122,6 +123,105 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
                 }
             }
         });
+
+        holder.ibComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, CommentActivity.class);
+                intent.putExtra("post", post.getObjectId());
+                context.startActivity(intent);
+            }
+        });
+
+        //view all comments implementation
+        switch (post.getCommentCount()){
+            case 0:
+                holder.tvViewComment.setVisibility(View.GONE);
+                holder.tvComment2.setVisibility(View.GONE);
+                holder.tvComment1.setVisibility(View.GONE);
+                break;
+            case 1:
+                holder.tvViewComment.setVisibility(View.GONE);
+                holder.tvComment2.setVisibility(View.GONE);
+                holder.tvComment1.setVisibility(View.VISIBLE);
+
+                ParseQuery<Comment> query = new ParseQuery<Comment>(Comment.class);
+                query.include(Comment.KEY_USER);
+                query.whereEqualTo("post",post);
+                query.orderByDescending("objectId");
+                query.findInBackground(new FindCallback<Comment>() {
+                    @Override
+                    public void done(List<Comment> objects, ParseException e) {
+                        if(e!=null){
+                            e.printStackTrace();
+                            return;
+                        }
+                        StyleSpan bold = new StyleSpan(android.graphics.Typeface.BOLD);
+                        SpannableStringBuilder stringBuilder = new SpannableStringBuilder(objects.get(0).getUser().getUsername());
+                        stringBuilder.setSpan(bold,0,stringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        stringBuilder.append(" ");
+                        stringBuilder.append(objects.get(0).getComment());
+
+                        holder.tvComment1.setText(stringBuilder);
+                    }
+                });
+
+                break;
+            case 2:
+                holder.tvViewComment.setVisibility(View.GONE);
+                holder.tvComment2.setVisibility(View.VISIBLE);
+                holder.tvComment1.setVisibility(View.VISIBLE);
+
+                ParseQuery<Comment> query1 = new ParseQuery<Comment>(Comment.class);
+                query1.include(Comment.KEY_USER);
+                query1.whereEqualTo("post",post);
+                query1.orderByDescending("objectId");
+                query1.findInBackground(new FindCallback<Comment>() {
+                    @Override
+                    public void done(List<Comment> objects, ParseException e) {
+                        if(e!=null){
+                            e.printStackTrace();
+                            return;
+                        }
+
+                        StyleSpan bold = new StyleSpan(android.graphics.Typeface.BOLD);
+                        SpannableStringBuilder stringBuilder = new SpannableStringBuilder(objects.get(0).getUser().getUsername());
+                        stringBuilder.setSpan(bold,0,stringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        stringBuilder.append(" ");
+                        stringBuilder.append(objects.get(0).getComment());
+
+                        holder.tvComment1.setText(stringBuilder);
+
+                        StyleSpan boldd = new StyleSpan(android.graphics.Typeface.BOLD);
+                        SpannableStringBuilder stringBuilder1 = new SpannableStringBuilder(objects.get(1).getUser().getUsername());
+                        stringBuilder1.setSpan(bold,0,stringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        stringBuilder1.append(" ");
+                        stringBuilder1.append(objects.get(1).getComment());
+
+                        holder.tvComment2.setText(stringBuilder1);
+                    }
+                });
+
+                break;
+                default:
+                    holder.tvViewComment.setVisibility(View.VISIBLE);
+                    holder.tvComment2.setVisibility(View.GONE);
+                    holder.tvComment1.setVisibility(View.GONE);
+
+                    holder.tvViewComment.setText("View all "+post.getCommentCount()+" comments");
+
+                    break;
+        }
+
+        holder.rlComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, CommentActivity.class);
+                intent.putExtra("post", post.getObjectId());
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     private void showUserInfo(Post post) {
@@ -210,9 +310,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
     private void likeThisPost(final Post post) {
         final int[] countLike = new int[1];
         //we save the like
-        ParseObject likeObject = new ParseObject("Like");
-        likeObject.put("user", ParseUser.getCurrentUser());
-        likeObject.put("post",post);
+        Like likeObject = new Like();
+        likeObject.setUser(ParseUser.getCurrentUser());
+        likeObject.setPost(post);
         likeObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -282,6 +382,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
         public TextView ivDescription;
         public TextView tvLikeCounter;
         public ImageButton ibLike;
+        public ImageButton ibComment;
+        public TextView tvViewComment;
+        public TextView tvComment1;
+        public TextView tvComment2;
+        public RelativeLayout rlComment;
 
         public mViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -291,8 +396,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
             ivDescription = itemView.findViewById(R.id.tv_comment);
             tvUsernameComment = itemView.findViewById(R.id.tv_usename_comment_i);
             ibLike = itemView.findViewById(R.id.ib_like_i);
+            ibComment = itemView.findViewById(R.id.ib_comment_i);
             tvLikeCounter = itemView.findViewById(R.id.tvViewCounter);
             tvTimeStamp = itemView.findViewById(R.id.tvTimestamp);
+            tvViewComment = itemView.findViewById(R.id.tvViewComment);
+            tvComment1 = itemView.findViewById(R.id.tvComment1);
+            tvComment2 = itemView.findViewById(R.id.tvComment2);
+            rlComment = itemView.findViewById(R.id.rl_comment);
         }
     }
 }
