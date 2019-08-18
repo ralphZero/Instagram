@@ -194,14 +194,15 @@ public class ShowUserActivity extends AppCompatActivity {
                     return;
                 }
                 if(!user.getObjectId().contentEquals(ParseUser.getCurrentUser().getObjectId())){
-                    if(objects.size()!=0){
+                    Log.d("FollowerError","Done");
+                    if(objects.size()!= 0){
                         Log.d("FollowerError","Not empty");
                         btnUnfollow.setVisibility(View.VISIBLE);
                         btnFollow.setVisibility(View.GONE);
                     }else{
                         Log.d("FollowerError","Empty");
-                        btnUnfollow.setVisibility(View.INVISIBLE);
-                        btnFollow.setVisibility(View.GONE);
+                        btnUnfollow.setVisibility(View.GONE);
+                        btnFollow.setVisibility(View.VISIBLE);
                     }
                 }
             }

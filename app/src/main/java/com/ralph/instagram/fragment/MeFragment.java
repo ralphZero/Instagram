@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.ralph.instagram.AccountActivity;
 import com.ralph.instagram.LoginActivity;
 import com.ralph.instagram.R;
 import com.ralph.instagram.adapters.MeAdapter;
@@ -50,6 +52,7 @@ public class MeFragment extends Fragment {
     RecyclerView rvMePosts;
     List<Post> postList;
     MeAdapter adapter;
+    Button btnEditprofile;
 
 
     @Nullable
@@ -68,6 +71,7 @@ public class MeFragment extends Fragment {
         tvUsername.setText(ParseUser.getCurrentUser().getUsername());
         tvName = view.findViewById(R.id.tvName);
         tvBio = view.findViewById(R.id.tvBio);
+        btnEditprofile = view.findViewById(R.id.btnEditProfile);
         tvBio.setText(ParseUser.getCurrentUser().getString("bio"));
         tvName.setText(ParseUser.getCurrentUser().getString("name"));
         imageView = view.findViewById(R.id.imageView);
@@ -83,7 +87,10 @@ public class MeFragment extends Fragment {
         rvMePosts.setAdapter(adapter);
 
         initBinding();
+
+
     }
+
 
     private void initBinding() {
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Post");
@@ -144,6 +151,14 @@ public class MeFragment extends Fragment {
                     return;
                 }
                 adapter.addAlltoList(objects);
+            }
+        });
+
+        btnEditprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AccountActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -371,6 +371,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.mViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void addToList(Post post){
+        list.add(post);
+        notifyDataSetChanged();
+    }
 
     public class mViewHolder extends RecyclerView.ViewHolder{
 

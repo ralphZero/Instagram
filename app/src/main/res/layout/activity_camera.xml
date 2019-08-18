@@ -26,27 +26,43 @@
         app:camera_focus="continuous"
         app:camera_permissions="camera">
 
+        <ImageButton
+            android:id="@+id/ib_facing"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_switch_camera_black_24dp" />
     </com.camerakit.CameraKitView>
 
-    <ImageButton
-        android:id="@+id/ibShutter"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@id/camera"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:background="@android:color/transparent"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/ufi_shutter" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/camera">
 
-    <Button
-        android:id="@+id/btnToGallery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:background="@color/colorTransparent"
-        android:text="Get image from gallery" />
+        <ImageButton
+            android:id="@+id/ibShutter"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="50dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ufi_shutter" />
+
+        <ImageButton
+            android:id="@+id/ibToGallery"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="false"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="30dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_image_black_24dp" />
+    </RelativeLayout>
 
 </RelativeLayout>
